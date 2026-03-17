@@ -1,0 +1,18 @@
+# requirements.txt content
+
+# 1. FastAPI and Server: The core API framework and the server that runs it
+fastapi
+uvicorn[standard]
+
+# 2. Machine Learning / NLP Libraries: For training, vectorization, and model handling
+scikit-learn
+pandas
+nltk
+joblib
+
+# 3. HTTP Client: To make external requests (optional, but good for Phase 1 prototype)
+requests
+
+# 4. Database (If you choose SQLite for local history)
+# If you decide to use SQLite for simple history/persistence, uncomment the line below:
+# sqlmodel

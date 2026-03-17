@@ -1,0 +1,81 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Sentiment Analysis Project - Final Year</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        
+        <link rel="stylesheet" href="assets/css/main.css" /> 
+        <link rel="stylesheet" href="style.css" /> 
+        <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+    </head>
+    
+    <body class="is-preload">
+
+        <header id="header">
+            <h1>Sentiment Analyzer</h1>
+            <nav>
+                <ul>
+                    <li><a href="#analysis-section">Analyze Text</a></li>
+                    <li><a href="#results-section">Results</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <section id="analysis-section" class="main style1 dark fullscreen">
+            <div class="content">
+                <header>
+                    <h2>Text Submission</h2>
+                </header>
+                
+                <div class="box">
+                    <form id="analysis-form">
+                        <div class="fields">
+                            <div class="field">
+                                <label for="text-input">Paste Text for Analysis:</label>
+                                <textarea name="text" id="text-input" placeholder="E.g., 'I love this service, the speed is incredible!'" rows="8" required></textarea>
+                            </div>
+                        </div>
+                        <ul class="actions special">
+                            <li><input type="submit" id="analyze-button" value="Analyze Sentiment" /></li>
+                        </ul>
+                    </form>
+                </div>
+            </div>
+            <footer>
+                <a href="#results-section" class="button style2 down">View Results</a>
+            </footer>
+        </section>
+
+        <section id="results-section" class="main style3 secondary">
+            <div class="content">
+                <header>
+                    <h2>Analysis Output</h2>
+                    <p>Real-time results from the FastAPI AI Model.</p>
+                </header>
+                
+                <div class="box">
+                    <div id="results-container">
+                        <p>Waiting for text submission...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer id="footer">
+            <ul class="menu">
+                <li>&copy; Computing Project [ISAAC DOONG JEN WEY]</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
+            </ul>
+        </footer>
+
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/jquery.poptrox.min.js"></script>
+        <script src="assets/js/browser.min.js"></script>
+        <script src="assets/js/breakpoints.min.js"></script>
+        <script src="assets/js/util.js"></script>
+        <script src="assets/js/main.js"></script>
+        
+        <script src="script.js"></script> 
+        
+    </body>
+</html>

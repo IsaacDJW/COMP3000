@@ -1,0 +1,15 @@
+# Ignore the entire model folder and its contents
+**/model/final_bert_model/
+**/final_bert_model/
+
+# Ignore all large files by extension
+*.safetensors
+*.bin
+*.pkl
+*.pth
+*.pt
+*.csv
+
+# System
+.vs/
+__pycache__/
