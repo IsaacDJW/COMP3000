@@ -1,0 +1,108 @@
+/* --- Core UI Refinements --- */
+body {
+    font-family: 'Inter', sans-serif;
+    scroll-behavior: smooth;
+}
+
+/* 1. Background and Visual Motion */
+.main.style1.dark.fullscreen#analysis-section {
+    background-image: url("images/intro.jpg") !important; 
+    background-size: cover !important; 
+    background-attachment: fixed;
+}
+
+.fade-in {
+    animation: fadeIn 1.2s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 2. Glassmorphism Design */
+.glass-box {
+    background: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: 15px !important;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+#text-input {
+    border-radius: 10px !important;
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+    background: rgba(255, 255, 255, 0.95) !important;
+}
+
+#text-input:focus {
+    border-color: #007bff !important;
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+}
+
+/* 3. Buttons & Actions */
+.primary-btn {
+    background-color: #4a90e2 !important;
+    transition: transform 0.2s ease, background 0.3s ease !important;
+    border-radius: 50px !important;
+}
+
+.primary-btn:hover {
+    transform: scale(1.05);
+    background-color: #357abd !important;
+}
+
+/* 4. Results & Confidence Meter */
+.result-card {
+    border-radius: 15px;
+    transition: all 0.5s ease;
+}
+
+.confidence-meter {
+    width: 100%;
+    background: #eee;
+    height: 12px;
+    border-radius: 10px;
+    margin: 15px 0;
+    overflow: hidden;
+}
+
+.confidence-fill {
+    height: 100%;
+    width: 0%; /* Animated via JS */
+    transition: width 1s ease-in-out;
+}
+
+/* Sentiment Colors */
+.alert-success { background: #d4edda; color: #155724; border-left: 8px solid #28a745; padding: 20px; border-radius: 8px; }
+.alert-danger { background: #f8d7da; color: #721c24; border-left: 8px solid #dc3545; padding: 20px; border-radius: 8px; }
+.fill-success { background: #28a745; }
+.fill-danger { background: #dc3545; }
+
+/* 5. History Table */
+.history-table {
+    width: 100%;
+    margin-top: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: white;
+}
+
+.history-table th { background: #f8f9fa; padding: 15px; }
+.history-table td { padding: 12px; border-bottom: 1px solid #eee; }
+
+.text-success { color: #28a745; font-weight: bold; }
+.text-danger { color: #dc3545; font-weight: bold; }
+
+/* Loading Animation */
+.loading-pulse {
+    animation: pulse 1.5s infinite;
+    color: #4a90e2;
+    font-weight: bold;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; }
+    100% { opacity: 0.5; }
+}
