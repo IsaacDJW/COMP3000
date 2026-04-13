@@ -1,112 +1,108 @@
-/* frontend/style.css - Combined Styles for Sentiment Project */
+/* --- Core UI Refinements --- */
+body {
+    font-family: 'Inter', sans-serif;
+    scroll-behavior: smooth;
+}
 
-/* ---------------------------------------------------------------- */
-/* 1. BACKGROUND AND OVERLAY (Fixes for intro.jpg) */
-/* ---------------------------------------------------------------- */
-
-/* Use the highly specific selector to ensure the rule takes priority */
+/* 1. Background and Visual Motion */
 .main.style1.dark.fullscreen#analysis-section {
     background-image: url("images/intro.jpg") !important; 
     background-size: cover !important; 
-    background-position: center center !important; 
-    background-repeat: no-repeat !important;  
+    background-attachment: fixed;
 }
 
-/* Dark overlay for readability */
-#analysis-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
+.fade-in {
+    animation: fadeIn 1.2s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 2. Glassmorphism Design */
+.glass-box {
+    background: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: 15px !important;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+#text-input {
+    border-radius: 10px !important;
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+    background: rgba(255, 255, 255, 0.95) !important;
+}
+
+#text-input:focus {
+    border-color: #007bff !important;
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+}
+
+/* 3. Buttons & Actions */
+.primary-btn {
+    background-color: #4a90e2 !important;
+    transition: transform 0.2s ease, background 0.3s ease !important;
+    border-radius: 50px !important;
+}
+
+.primary-btn:hover {
+    transform: scale(1.05);
+    background-color: #357abd !important;
+}
+
+/* 4. Results & Confidence Meter */
+.result-card {
+    border-radius: 15px;
+    transition: all 0.5s ease;
+}
+
+.confidence-meter {
     width: 100%;
+    background: #eee;
+    height: 12px;
+    border-radius: 10px;
+    margin: 15px 0;
+    overflow: hidden;
+}
+
+.confidence-fill {
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.3); 
-    z-index: 1; 
+    width: 0%; /* Animated via JS */
+    transition: width 1s ease-in-out;
 }
 
-/* Ensure text/form is on top of the overlay */
-#analysis-section .content {
-    z-index: 10; 
-}
+/* Sentiment Colors */
+.alert-success { background: #d4edda; color: #155724; border-left: 8px solid #28a745; padding: 20px; border-radius: 8px; }
+.alert-danger { background: #f8d7da; color: #721c24; border-left: 8px solid #dc3545; padding: 20px; border-radius: 8px; }
+.fill-success { background: #28a745; }
+.fill-danger { background: #dc3545; }
 
-/* FIX SPACING: Add space below the input form box before the arrow button footer */
-#analysis-section .content .box {
-    margin-bottom: 3em; 
-}
-
-/* ---------------------------------------------------------------- */
-/* 2. INPUT FORM STYLING (To improve the text area and button) */
-/* ---------------------------------------------------------------- */
-
-#analysis-section #text-input {
-    min-height: 250px; 
-    width: 100%;
-    padding: 15px;
-    border: 2px solid #5d5d5d;
-    background-color: rgba(255, 255, 255, 0.9); 
-    color: #333; 
-}
-
-#analysis-section .actions input[type="submit"] {
-    font-size: 1.1em;
-    padding: 0 3em;
-}
-
-
-/* ---------------------------------------------------------------- */
-/* 3. RESULTS DISPLAY STYLING (CRITICAL: Color-coding the output) */
-/* ---------------------------------------------------------------- */
-
-#results-section .box {
-    padding: 2.5em; 
-    text-align: center; 
-}
-
-/* Make the sentiment label itself bold and large */
-#results-container h4 {
-    font-size: 1.8em;
-    margin-bottom: 0.5em;
-}
-
-/* --- Sentiment Color Classes (Used by script.js) --- */
-
-.alert-success {
-    background-color: #e5f7ed; 
-    border: 2px solid #28a745; 
-    color: #155724; 
-    padding: 1.5em;
-    border-radius: 6px;
-    margin-top: 20px;
-}
-
-.alert-danger {
-    background-color: #f8e5e5; 
-    border: 2px solid #dc3545; 
-    color: #721c24; 
-    padding: 1.5em;
-    border-radius: 6px;
-    margin-top: 20px;
-}
-
-#analysis-section footer .button.down {
-    margin-left: 50px; 
-    display: inline-block; 
-}
-/* frontend/style.css */
-
-/* --- History Table Styling --- */
+/* 5. History Table */
 .history-table {
     width: 100%;
-    border-collapse: collapse;
-    margin-top: 1em;
-    font-size: 0.9em;
+    margin-top: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: white;
 }
-.history-table th, .history-table td {
-    padding: 10px;
-    border: 1px solid #ddd;
-    text-align: left;
-}
-.history-table th {
-    background-color: #f4f4f4;
+
+.history-table th { background: #f8f9fa; padding: 15px; }
+.history-table td { padding: 12px; border-bottom: 1px solid #eee; }
+
+.text-success { color: #28a745; font-weight: bold; }
+.text-danger { color: #dc3545; font-weight: bold; }
+
+/* Loading Animation */
+.loading-pulse {
+    animation: pulse 1.5s infinite;
+    color: #4a90e2;
     font-weight: bold;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; }
+    100% { opacity: 0.5; }
 }
