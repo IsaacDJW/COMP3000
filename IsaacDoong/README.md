@@ -1,7 +1,6 @@
 # Supervisor
 Dr HaoYi Wang
 
-
 # TextLens: Deep Learning Sentiment Analysis
 TextLens is a high-performance web application designed to transform massive volumes of unstructured social media chatter into actionable emotional intelligence. By utilizing a fine-tuned DistilBERT transformer model, it provides real-time classification of text into Positive, Neutral and Negative sentiments with sub-second inference speeds.
 
