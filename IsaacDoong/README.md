@@ -32,11 +32,11 @@ Final Weighted F1-Score: 0.7455
 
 Regularization Techniques:
 
-Label Smoothing: (0.1) to improve generalization across noisy social media text.
+    Label Smoothing: (0.1) to improve generalization across noisy social media text.
 
-Early Stopping: Monitored validation loss to prevent memorization of training data.
+    Early Stopping: Monitored validation loss to prevent memorization of training data.
 
-Cosine Learning Rate Decay: Ensured smooth convergence and prevented "bouncing" in the training loss.
+    Cosine Learning Rate Decay: Ensured smooth convergence and prevented "bouncing" in the training loss.
 
 
 # Project Structure
