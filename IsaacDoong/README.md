@@ -9,13 +9,13 @@ The primary goal of TextLens is to provide decision support for organizations an
 
 This strategic transformation of data empowers users across multiple critical domains:
 
-    1. Brand Reputation: Facilitating the real-time detection of public relations crises and shifts in audience sentiment to proactively protect brand equity.
+1. Brand Reputation: Facilitating the real-time detection of public relations crises and shifts in audience sentiment to proactively protect brand equity.
 
-    2. Product Strategy: Streamlining the analysis of customer reviews and feedback to pinpoint specific feature complaints, driving data-driven product improvements.
+2. Product Strategy: Streamlining the analysis of customer reviews and feedback to pinpoint specific feature complaints, driving data-driven product improvements.
 
-    3. Public Policy & Research: Enabling researchers and social media users to comprehend community reactions to government initiatives and complex social trends at scale.
+3. Public Policy & Research: Enabling researchers and social media users to comprehend community reactions to government initiatives and complex social trends at scale.
 
-    4. Operational Efficiency: Reducing the time required to categorize feedback from days to sub-seconds, allowing Customer Success Teams to react to the customer feedback instantly.
+4. Operational Efficiency: Reducing the time required to categorize feedback from days to sub-seconds, allowing Customer Success Teams to react to the customer feedback instantly.
 
 # Technical Stack
 Model Architecture: DistilBERT (distilbert-base-uncased).
