@@ -5,15 +5,17 @@ Dr HaoYi Wang
 TextLens is a high-performance web application designed to transform massive volumes of unstructured social media chatter into actionable emotional intelligence. By utilizing a fine-tuned DistilBERT transformer model, it provides real-time classification of text into Positive, Neutral and Negative sentiments with sub-second inference speeds.
 
 # Business Vision & Goal
-The primary goal of TextLens is to provide Decision Support for organizations and researchers overwhelmed by the velocity of online data. By turning unstructured text into structured sentiment metrics, TextLens transforms raw feedback into real-time emotional intelligence.
+The primary goal of TextLens is to provide decision support for organizations and researchers overwhelmed by the velocity of online data. In today's digital landscape, our goal isn't just to classify text, but to transform unorganized public chatter into actionable data for decision-makers. TextLens serves to bridge the gap between massive online data and human understanding by providing a high-speed, scalable tool that translates thousands of opinions into clear emotional trends, allowing organizations to respond to public sentiment in real-time. By turning unstructured text into structured sentiment metrics, the platform transforms raw feedback into real-time emotional intelligence.
 
-Brand Reputation: Real-time detection of public relations crises and shifts in audience sentiment to protect brand equity.
+This strategic transformation of data empowers users across multiple critical domains:
 
-Product Strategy: Analyzing customer reviews and feedback to identify specific feature complaints and drive data-driven product decisions.
+    1. Brand Reputation: Facilitating the real-time detection of public relations crises and shifts in audience sentiment to proactively protect brand equity.
 
-Public Policy & Research: Helping researchers and social media users understand community reactions to government initiatives and social trends at scale.
+    2. Product Strategy: Streamlining the analysis of customer reviews and feedback to pinpoint specific feature complaints, driving data-driven product improvements.
 
-Operational Efficiency: Reducing the time to categorize feedback from days to seconds, allowing Customer Success Teams to react to the voice of the customer instantly.
+    3. Public Policy & Research: Enabling researchers and social media users to comprehend community reactions to government initiatives and complex social trends at scale.
+
+    4. Operational Efficiency: Reducing the time required to categorize feedback from days to sub-seconds, allowing Customer Success Teams to react to the customer feedback instantly.
 
 # Technical Stack
 Model Architecture: DistilBERT (distilbert-base-uncased).
