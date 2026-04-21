@@ -1,23 +1,23 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
     <head>
-        <title>TextLens - Sentiment Analysis</title>
+        <title>TextLens | AI Sentiment Analysis</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
         <link rel="stylesheet" href="assets/css/main.css" /> 
         <link rel="stylesheet" href="style.css" /> 
-        <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     </head>
     
-    <body class="is-preload">
+    <body>
 
         <header id="header" class="glass-header">
-            <h1 class="logo">Sentiment Analyzer</h1>
+            <h1 class="logo">TextLens</h1>
             <nav>
                 <ul>
-                    <li><a href="#analysis-section">Analyze</a></li>
-                    <li><a href="#results-section">Results</a></li>
+                    <li><a href="#analysis-section">Home</a></li>
+                    <li><a href="#about-section">About Project</a></li>
+                    <li><a href="#results-section">History</a></li>
                 </ul>
             </nav>
         </header>
@@ -25,16 +25,16 @@
         <section id="analysis-section" class="main style1 dark fullscreen">
             <div class="content fade-in">
                 <header>
-                    <h2 class="glow-text">TextLens</h2>
-                    <p>Unlock the emotional tone behind any text instantly.</p>
+                    <h2 class="hero-title">Decode Emotions <br><span>with AI Precision.</span></h2>
+                    <p class="hero-subtitle">Upload your text and let our neural network analyze the sentiment in milliseconds.</p>
                 </header>
                 
                 <div class="box glass-box">
                     <form id="analysis-form">
                         <div class="fields">
                             <div class="field">
-                                <label for="text-input">Paste Text for Analysis:</label>
-                                <textarea name="text" id="text-input" placeholder="E.g., 'The service was incredibly fast and friendly!'" rows="6" required></textarea>
+                                <label for="text-input">Text Input</label>
+                                <textarea name="text" id="text-input" placeholder="Type or paste something here..." rows="5" required></textarea>
                             </div>
                         </div>
                         <ul class="actions special">
@@ -45,32 +45,43 @@
             </div>
         </section>
 
-        <section id="results-section" class="main style3 secondary">
-            <div class="content">
+        <section id="about-section" class="main style2">
+            <div class="content container">
                 <header>
-                    <h2>Analysis Output</h2>
-                    <p>AI-driven insights for your text.</p>
+                    <h2>About the Project</h2>
                 </header>
-                
-                <div class="box result-card">
-                    <div id="results-container">
-                        <p class="placeholder-text">Waiting for text submission...</p>
+                <div class="row">
+                    <div class="col-6 col-12-medium">
+                        <p>
+                        <strong>TextLens</strong> is an AI-driven decision support tool designed to bridge the gap between massive online data and human understanding. Using a FastAPI backend and a fine-tuned DistilBERT transformer model, this system transforms unstructured public chatter into actionable emotional intelligence at scale.
+                        </p>
+                    </div>
+                    <div class="col-6 col-12-medium">
+                        <ul>
+                            <li><strong>Model:</strong> Sentiment Analysis Neural Network</li>
+                            <li><strong>Backend:</strong> FastAPI & Python</li>
+                            <li><strong>Frontend:</strong> Modern CSS3 & Vanilla JavaScript</li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </section>
 
+        <section id="results-section" class="main style3 secondary">
+            <div class="content">
+                <div id="history-container" class="fade-in">
+        </section>
+
         <footer id="footer">
             <ul class="menu">
-                <li>&copy; COMP 3000 Computing Project [ISAAC DOONG JEN WEY]</li>
+                <li>&copy; COMP 3000 Computing Project | ISAAC DOONG JEN WEY</li>
             </ul>
         </footer>
 
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/js/browser.min.js"></script>
-        <script src="assets/js/breakpoints.min.js"></script>
         <script src="assets/js/util.js"></script>
         <script src="assets/js/main.js"></script>
-        <script src="script.js"></script> 
+        <script src="script.js"></script>
     </body>
 </html>

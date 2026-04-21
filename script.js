@@ -5,7 +5,7 @@ const analyzeButton = document.getElementById('analyze-button');
 const API_URL = 'http://127.0.0.1:8000/api/analyze'; 
 const HISTORY_KEY = 'sentimentHistory';
 
-// --- 1. LOCAL STORAGE ---
+// --- Functions ---
 function loadHistory() {
     const historyJson = localStorage.getItem(HISTORY_KEY);
     return historyJson ? JSON.parse(historyJson) : [];
@@ -16,7 +16,7 @@ function saveResultToHistory(text, result) {
     const newEntry = {
         id: Date.now(),
         timestamp: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
-        text: text.substring(0, 40) + '...',
+        text: text.length > 50 ? text.substring(0, 47) + '...' : text,
         sentiment: result.sentiment,
         score: result.score
     };
@@ -28,11 +28,11 @@ function saveResultToHistory(text, result) {
 
 function displayHistory() {
     const history = loadHistory();
-    const historyTable = document.getElementById('history-table');
-    if (!historyTable) return;
+    const historyDiv = document.getElementById('history-table-mount');
+    if (!historyDiv) return;
 
     if (history.length === 0) {
-        historyTable.innerHTML = '<p>No recent analysis found.</p>';
+        historyDiv.innerHTML = '<p class="placeholder-text">Your activity history is currently empty.</p>';
         return;
     }
     
@@ -41,103 +41,100 @@ function displayHistory() {
             <thead>
                 <tr>
                     <th>Time</th>
-                    <th>Text</th>
+                    <th>Text Snippet</th>
                     <th>Sentiment</th>
-                    <th>Score</th>
+                    <th>Confidence</th>
                 </tr>
             </thead>
             <tbody>
     `;
 
     history.forEach(entry => {
-        let color = entry.sentiment.toLowerCase() === 'positive' ? 'text-success' : 'text-danger';
+        const sentiment = entry.sentiment.toLowerCase();
+        let colorClass = 'sentiment-neutral'; // Default
+        if (sentiment.includes('positive')) colorClass = 'sentiment-positive';
+        if (sentiment.includes('negative')) colorClass = 'sentiment-negative';
+
         tableHtml += `
             <tr>
                 <td>${entry.timestamp}</td>
-                <td>${entry.text}</td>
-                <td class="${color}">${entry.sentiment.toUpperCase()}</td>
+                <td style="color: #64748b; font-style: italic;">"${entry.text}"</td>
+                <td class="${colorClass}" style="font-weight:800;">${entry.sentiment.toUpperCase()}</td>
                 <td>${(entry.score * 100).toFixed(0)}%</td>
             </tr>
         `;
     });
 
     tableHtml += `</tbody></table>`;
-    historyTable.innerHTML = tableHtml;
+    historyDiv.innerHTML = tableHtml;
 }
 
-// --- 2. API CALL ---
 async function analyzeSentiment(text) {
-    try {
-        const response = await fetch(API_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ text: text })
-        });
-        return await response.json();
-    } catch (error) {
-        return { sentiment: "Error", score: 0, message: "Connection to AI server failed." };
-    }
+    const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: text })
+    });
+    
+    if (!response.ok) { throw new Error("API Connection Failed"); }
+    return await response.json();
 }
 
-// --- 3. DISPLAY RESULT WITH ANIMATION ---
 function displayResult(result, originalText) {
-    let type = result.sentiment.toLowerCase();
-    let isPos = type.includes('positive');
-    let colorClass = isPos ? 'alert-success' : 'alert-danger';
-    let fillClass = isPos ? 'fill-success' : 'fill-danger';
-    let scorePercent = (result.score * 100).toFixed(1);
+    // 1. Save to History
+    saveResultToHistory(originalText, result);
 
-    if (result.sentiment !== 'Error') {
-        saveResultToHistory(originalText, result);
-    }
+    // 2. Prepare Data for redirect
+    const analysisData = {
+        text: originalText,
+        sentiment: result.sentiment,
+        score: result.score,
+        breakdown: result.breakdown
+    };
     
-    resultsContainer.innerHTML = `
-        <div class="${colorClass} fade-in">
-            <h4>Sentiment: <strong>${result.sentiment.toUpperCase()}</strong></h4>
-            <div class="confidence-meter">
-                <div class="confidence-fill ${fillClass}" id="bar-fill"></div>
-            </div>
-            <p>Confidence: <strong>${scorePercent}%</strong></p>
-            <small>${result.message || 'Analysis complete.'}</small>
-        </div>
-    `;
-    
-    // Trigger the bar animation after a tiny delay
+    sessionStorage.setItem('latestAnalysis', JSON.stringify(analysisData));
+
+    // 3. Redirect to the Dashboard
     setTimeout(() => {
-        const bar = document.getElementById('bar-fill');
-        if(bar) bar.style.width = scorePercent + '%';
-    }, 100);
-    
-    document.getElementById('results-section').scrollIntoView({ behavior: 'smooth' });
+        window.location.href = 'analysis.html';
+    }, 150);
 }
 
-// --- 4. EVENT LISTENER ---
-form.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    const userText = inputArea.value.trim();
+// --- Events ---
+if (form) {
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const userText = inputArea.value.trim();
+        if (userText.length === 0) return;
+        
+        // UI Loading State
+        analyzeButton.value = "Analyzing...";
+        analyzeButton.disabled = true;
 
-    if (userText.length === 0) return;
-    
-    resultsContainer.innerHTML = '<p class="loading-pulse">Scanning text emotion...</p>';
-    analyzeButton.value = "Analyzing...";
-    analyzeButton.disabled = true;
+        try {
+            const result = await analyzeSentiment(userText);
+            displayResult(result, userText);
+        } catch (error) {
+            console.error("Error:", error);
+            alert("Connection Error: Please ensure your FastAPI server is running on port 8000.");
+            
+            // Reset Button
+            analyzeButton.value = "Analyze Sentiment";
+            analyzeButton.disabled = false;
+        }
+    });
+}
 
-    const result = await analyzeSentiment(userText);
-    
-    analyzeButton.value = "Analyze Sentiment";
-    analyzeButton.disabled = false;
-    displayResult(result, userText);
-});
-
-// --- 5. INITIALIZATION ---
+// --- Initialization ---
 window.onload = () => {
-    const resultsSection = document.getElementById('results-section').querySelector('.content');
-    const historyContainerHtml = `
-        <div style="margin-top: 3em;" class="fade-in">
-            <h3 style="font-size: 1.2em; margin-bottom: 1em;">Recent Activity</h3>
-            <div id="history-table"></div>
-        </div>
-    `;
-    resultsSection.insertAdjacentHTML('beforeend', historyContainerHtml);
+    const historyContainer = document.getElementById('history-container');
+    if (historyContainer) {
+        historyContainer.innerHTML = `
+            <div style="margin-top: 2em; padding-bottom: 2rem;">
+                <h3 style="font-weight: 800; margin-bottom: 1.5rem; color: #1e293b;">Recent Activity</h3>
+                <div id="history-table-mount"></div>
+            </div>
+        `;
+    }
     displayHistory();
 };

@@ -179,36 +179,24 @@ def analyze_sentiment(data: TextIn):
 
     scores = output.logits[0].detach().numpy()
 
-   
     # Convert logits to probabilities
-
     probabilities = softmax(scores)
 
-    # Find the index of the highest probability
+    # NEW: Create a dictionary of all scores for the Analysis Dashboard
+    breakdown = {
+        LABEL_MAP_FIXED[i]: float(probabilities[i]) 
+        for i in range(len(probabilities))
+    }
 
     max_index = np.argmax(probabilities)
-
-    # Get the corresponding sentiment label and score
-
     prediction = LABEL_MAP_FIXED.get(max_index, f"LABEL_{max_index}")
-
     score = probabilities[max_index]
 
-    message = "Prediction successful."
-
-   
-    # --- REMOVED HEURISTIC OVERRIDE ---
-
-    # The block checking for strong_negative_words and overriding the prediction has been removed.
-
-    # The model's prediction is used directly for a pure DL pipeline.
-
     return SentimentOut(
-
         sentiment=prediction,
         score=float(score),
-        message=message,
-
+        breakdown=breakdown, # <--- Add this!
+        message="Analysis complete."
     )
 
 

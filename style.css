@@ -1,108 +1,185 @@
-/* --- Core UI Refinements --- */
+/* --- 1. GLOBAL VARIABLES & RESET --- */
+:root {
+    --primary: #4a90e2;
+    --success: #2ecc71;
+    --danger: #e74c3c;
+    --glass: rgba(255, 255, 255, 0.08);
+    --bg-dark: #0f172a;
+    --text-main: #f8fafc;
+    --slate-dark: #1e293b;
+}
+
 body {
-    font-family: 'Inter', sans-serif;
-    scroll-behavior: smooth;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    margin: 0;
+    line-height: 1.6;
 }
 
-/* 1. Background and Visual Motion */
-.main.style1.dark.fullscreen#analysis-section {
-    background-image: url("images/intro.jpg") !important; 
-    background-size: cover !important; 
-    background-attachment: fixed;
+/* Consolidate Body for Analysis Page */
+body.analysis-page {
+    background: radial-gradient(circle at top right, #1e293b, #0f172a) !important;
+    min-height: 100vh;
 }
 
-.fade-in {
-    animation: fadeIn 1.2s ease-out;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* 2. Glassmorphism Design */
-.glass-box {
-    background: rgba(255, 255, 255, 0.1) !important;
+/* --- 2. NAVIGATION & HEADER --- */
+.glass-header {
+    background: rgba(15, 23, 42, 0.9) !important;
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
-    border-radius: 15px !important;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-header .logo, 
+.glass-header nav ul li a {
+    color: #ffffff !important;
+    font-weight: 600;
+    opacity: 1 !important;
+}
+
+.glass-header nav ul li a:hover {
+    color: var(--primary) !important;
+}
+
+/* --- 3. HOME PAGE COMPONENTS --- */
+
+/* Hero Title */
+.hero-title {
+    font-size: 3.5rem !important;
+    font-weight: 800 !important;
+    letter-spacing: -1px;
+    line-height: 1.1;
+}
+
+.hero-title span {
+    color: var(--primary);
+    text-shadow: 0 0 20px rgba(74, 144, 226, 0.3);
+}
+
+/* Main Section Fixes (Reduced White Space) */
+.main.fullscreen {
+    min-height: 80vh !important; /* Changed from 100vh to fix white space */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 3em 0 !important;
+}
+
+#analysis-section {
+    background: linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.7)), 
+                url("./images/intro.jpg") no-repeat center center !important;
+    background-size: cover !important;
+    background-attachment: fixed !important;
+}
+
+.glass-box {
+    /* animation: float 6s ease-in-out infinite; <--- DELETE OR COMMENT THIS LINE */
+    background: var(--glass) !important;
+    backdrop-filter: blur(12px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    padding: 3rem !important;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+    100% { transform: translateY(0px); }
 }
 
 #text-input {
-    border-radius: 10px !important;
-    transition: border 0.3s ease, box-shadow 0.3s ease;
-    background: rgba(255, 255, 255, 0.95) !important;
+    border: none !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    color: var(--slate-dark) !important;
+    font-size: 1.1rem;
+    padding: 20px !important;
+    border-radius: 12px !important;
 }
 
-#text-input:focus {
-    border-color: #007bff !important;
-    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+/* --- 4. RESULTS & HISTORY (HOME PAGE) --- */
+#results-section {
+    background-color: #f8fafc !important; /* Light theme for history */
+    color: var(--slate-dark) !important;
+    padding: 2em 0 !important;
 }
 
-/* 3. Buttons & Actions */
-.primary-btn {
-    background-color: #4a90e2 !important;
-    transition: transform 0.2s ease, background 0.3s ease !important;
-    border-radius: 50px !important;
+.result-card-home { /* Specific for the small card on home page */
+    background: #ffffff !important;
+    color: var(--slate-dark) !important;
+    border-radius: 20px !important;
+    padding: 2.5rem !important;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
 }
 
-.primary-btn:hover {
-    transform: scale(1.05);
-    background-color: #357abd !important;
-}
-
-/* 4. Results & Confidence Meter */
-.result-card {
-    border-radius: 15px;
-    transition: all 0.5s ease;
-}
-
-.confidence-meter {
-    width: 100%;
-    background: #eee;
-    height: 12px;
-    border-radius: 10px;
-    margin: 15px 0;
-    overflow: hidden;
-}
-
-.confidence-fill {
-    height: 100%;
-    width: 0%; /* Animated via JS */
-    transition: width 1s ease-in-out;
-}
-
-/* Sentiment Colors */
-.alert-success { background: #d4edda; color: #155724; border-left: 8px solid #28a745; padding: 20px; border-radius: 8px; }
-.alert-danger { background: #f8d7da; color: #721c24; border-left: 8px solid #dc3545; padding: 20px; border-radius: 8px; }
-.fill-success { background: #28a745; }
-.fill-danger { background: #dc3545; }
-
-/* 5. History Table */
 .history-table {
     width: 100%;
-    margin-top: 20px;
-    border-radius: 10px;
-    overflow: hidden;
-    background: white;
+    border-collapse: collapse;
+    margin-top: 1rem;
 }
 
-.history-table th { background: #f8f9fa; padding: 15px; }
-.history-table td { padding: 12px; border-bottom: 1px solid #eee; }
-
-.text-success { color: #28a745; font-weight: bold; }
-.text-danger { color: #dc3545; font-weight: bold; }
-
-/* Loading Animation */
-.loading-pulse {
-    animation: pulse 1.5s infinite;
-    color: #4a90e2;
-    font-weight: bold;
+.history-table th {
+    background: #f1f5f9 !important;
+    color: #64748b !important;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    padding: 12px;
 }
 
-@keyframes pulse {
-    0% { opacity: 0.5; }
-    50% { opacity: 1; }
-    100% { opacity: 0.5; }
+.history-table td {
+    padding: 12px;
+    border-bottom: 1px solid #f1f5f9;
+    color: var(--slate-dark) !important;
+}
+
+/* --- 5. ANALYSIS PAGE DASHBOARD --- */
+.result-card {
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 24px !important;
+    padding: 3rem !important;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
+    color: var(--text-main) !important;
+}
+
+h2.report-title {
+    font-size: 3rem;
+    font-weight: 800;
+    background: linear-gradient(to bottom, #ffffff, #94a3b8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+}
+
+/* Dynamic Glows */
+.sentiment-negative { color: #ff6b6b !important; text-shadow: 0 0 15px rgba(255, 107, 107, 0.3); }
+.sentiment-positive { color: #51cf66 !important; text-shadow: 0 0 15px rgba(81, 207, 102, 0.3); }
+.sentiment-neutral { color: #94a3b8 !important; }
+
+#breakdownChart {
+    background: rgba(255, 255, 255, 0.02);
+    padding: 15px;
+    border-radius: 12px;
+}
+
+/* --- 6. BUTTONS --- */
+.primary-btn, .button.analyze-again {
+    background: var(--primary) !important;
+    color: white !important;
+    border-radius: 50px !important;
+    padding: 0 40px !important;
+    height: 60px !important;
+    line-height: 60px !important;
+    font-weight: 600 !important;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.primary-btn:hover, .button.analyze-again:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 10px 20px rgba(74, 144, 226, 0.4);
+    background: #5ba4f5 !important;
 }

@@ -1,0 +1,134 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <title>Analysis Report | TextLens</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+</head>
+
+<body class="analysis-page">
+
+    <section class="main style1 dark fullscreen" style="padding: 4em 0;">
+        <div class="content container">
+            <header class="fade-in">
+                <h2 class="report-title">Sentiment Analysis Report</h2>
+                <p style="color: #94a3b8;">Detailed breakdown of detected linguistic patterns and confidence distribution.</p>
+            </header>
+
+            <div class="box result-card fade-in">
+                <div class="analysis-header">
+                    <h3 style="color: #94a3b8; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Input Source</h3>
+                    <blockquote id="original-text-display"></blockquote>
+                </div>
+                
+                <hr style="border-color: rgba(255,255,255,0.1); margin: 2rem 0;" />
+
+                <div class="row">
+                    <div class="col-6 col-12-medium" style="text-align: center; display: flex; flex-direction: column; justify-content: center;">
+                        <h3 style="color: #94a3b8; font-size: 0.8rem; text-transform: uppercase;">Dominant Sentiment</h3>
+                        <h1 id="primary-label" style="font-size: 3.5rem; font-weight: 800; margin: 0;"></h1>
+                        <p id="primary-confidence" style="font-weight: 600; margin-top: 0.5rem;"></p>
+                    </div>
+
+                    <div class="col-6 col-12-medium">
+                        <h3 style="color: #94a3b8; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 1.5rem;">Confidence Distribution</h3>
+                        <div style="height: 200px;">
+                            <canvas id="breakdownChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 2.5rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 2rem; text-align: left;">
+                    <div class="col-4 col-12-medium">
+                        <h3 style="color: #94a3b8; font-size: 0.8rem; text-transform: uppercase;">NLP Metrics</h3>
+                        <p id="word-count" style="margin: 0; font-size: 1.2rem; font-weight: 800; color: #fff;"></p>
+                        <p id="intensity-meter" style="margin: 0; font-size: 0.9rem; font-weight: 600; color: var(--primary);"></p>
+                    </div>
+                    <div class="col-8 col-12-medium">
+                        <h3 style="color: #94a3b8; font-size: 0.8rem; text-transform: uppercase;">Strategic Recommendation</h3>
+                        <div id="business-tip" style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 12px; font-size: 0.95rem; line-height: 1.6; border-left: 4px solid var(--primary);">
+                            </div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 3rem; text-align: center;">
+                    <ul class="actions special">
+                        <li><a href="index.html" class="button primary-btn analyze-again">Analyze Another Text</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const data = JSON.parse(sessionStorage.getItem('latestAnalysis'));
+        if (!data) { window.location.href = 'index.html'; }
+
+        // --- Basic UI Elements ---
+        document.getElementById('original-text-display').innerText = `"${data.text}"`;
+        const labelEl = document.getElementById('primary-label');
+        labelEl.innerText = data.sentiment.toUpperCase();
+        labelEl.className = `sentiment-${data.sentiment.toLowerCase()}`;
+        document.getElementById('primary-confidence').innerText = `AI Certainty: ${(data.score * 100).toFixed(1)}%`;
+
+        // --- NEW: NLP Metrics Calculation ---
+        const words = data.text.trim().split(/\s+/).length;
+        // Intensity is how far from a "random guess" (0.33) the score is
+        const intensityScore = (data.score - 0.33) / 0.67;
+        let intensityLevel = intensityScore > 0.7 ? "High Intensity" : intensityScore > 0.4 ? "Moderate Intensity" : "Subtle/Nuanced";
+
+        document.getElementById('word-count').innerText = `${words} Words Analyzed`;
+        document.getElementById('intensity-meter').innerText = `Emotional Weight: ${intensityLevel}`;
+
+        // --- NEW: Dynamic Business Recommendations ---
+        const tipBox = document.getElementById('business-tip');
+        let recommendation = "";
+        const sentiment = data.sentiment.toLowerCase();
+
+        if (sentiment === 'negative') {
+            recommendation = "⚠️ <strong>Risk Alert:</strong> This content expresses strong dissatisfaction. High priority for Customer Success intervention to prevent brand churn.";
+            tipBox.style.borderLeftColor = "#ff6b6b";
+        } else if (sentiment === 'neutral') {
+            recommendation = "ℹ️ <strong>Optimization Insight:</strong> The audience is currently indifferent. We recommend adding more distinctive value propositions to drive emotional engagement.";
+            tipBox.style.borderLeftColor = "#94a3b8";
+        } else {
+            recommendation = "✅ <strong>Growth Opportunity:</strong> High user satisfaction detected. This input is an excellent candidate for marketing social proof or a positive case study.";
+            tipBox.style.borderLeftColor = "#51cf66";
+        }
+        tipBox.innerHTML = recommendation;
+
+        // --- Chart.js Configuration ---
+        const ctx = document.getElementById('breakdownChart').getContext('2d');
+        const colors = { 'negative': '#ff6b6b', 'neutral': '#94a3b8', 'positive': '#51cf66' };
+        const chartLabels = Object.keys(data.breakdown);
+        const backgroundColors = chartLabels.map(l => colors[l.toLowerCase()] || '#4a90e2');
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: chartLabels.map(l => l.toUpperCase()),
+                datasets: [{
+                    data: Object.values(data.breakdown),
+                    backgroundColor: backgroundColors,
+                    borderRadius: 6,
+                    barThickness: 20
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { display: false, beginAtZero: true, max: 1 },
+                    y: { ticks: { color: '#94a3b8', font: { weight: '600' } }, grid: { display: false } }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
