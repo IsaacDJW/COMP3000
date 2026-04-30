@@ -10,7 +10,7 @@ def get_prediction_analysis(model, tokenizer, text):
         # Apply Softmax to get percentages (0.0 to 1.0)
         probabilities = torch.nn.functional.softmax(outputs.logits, dim=-1).cpu().numpy()
     
-    labels = ['negative', 'neutral', 'positive'] # Ensure this matches your LabelEncoder order
+    labels = ['negative', 'neutral', 'positive']
     breakdown = {labels[i]: float(probabilities[i]) for i in range(len(labels))}
     
     # Get the winning label

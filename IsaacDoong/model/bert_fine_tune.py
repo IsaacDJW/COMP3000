@@ -22,7 +22,7 @@ MODEL_NAME = 'distilbert-base-uncased'
 OUTPUT_DIR = './model/final_bert_model'
 RANDOM_SEED = 42
 
-# 1. Load and Prepare Data
+# Load and Prepare Data
 def clean_text(text):
     if isinstance(text, str):
         text = re.sub(r'http\S+|www\S+|https\S+', '', text, flags=re.MULTILINE)
@@ -46,12 +46,12 @@ raw_datasets = DatasetDict({
     'eval': Dataset.from_pandas(eval_df[['text', 'label']])
 })
 
-# 2. Tokenization
+# Tokenization
 tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
 tokenized_datasets = raw_datasets.map(lambda x: tokenizer(x['text'], truncation=True, padding='max_length', max_length=128), batched=True)
 tokenized_datasets.set_format("torch")
 
-# 3. Model Configuration
+# Model Configuration
 config = AutoConfig.from_pretrained(MODEL_NAME, num_labels=num_labels)
 config.hidden_dropout_prob = 0.3
 config.attention_probs_dropout_prob = 0.3
@@ -76,7 +76,7 @@ def compute_metrics(p):
         'f1': f1_score(p.label_ids, preds, average='weighted'),
     }
 
-# 4. Final Balanced Training Arguments
+# Final Balanced Training Arguments
 training_args = TrainingArguments(
     output_dir=OUTPUT_DIR,
     num_train_epochs=15,
@@ -108,7 +108,7 @@ trainer = CustomTrainer(
 
 trainer.train()
 
-# 5. Plotting
+# Plotting
 history = trainer.state.log_history
 train_loss = {int(round(x['epoch'])): x['loss'] for x in history if 'loss' in x}
 val_loss = {int(round(x['epoch'])): x['eval_loss'] for x in history if 'eval_loss' in x}
@@ -119,7 +119,7 @@ plt.plot(epochs, [train_loss[e] for e in epochs], label='Training Loss', color='
 plt.plot(epochs, [val_loss[e] for e in epochs], label='Validation Loss', color='orange', marker='o')
 plt.title('Final Optimized Learning Curve'); plt.legend(); plt.grid(True); plt.show()
 
-# 6. Detailed Scoring
+# Detailed Scoring
 predictions = trainer.predict(tokenized_datasets["eval"])
 print("\n--- DETAILED CLASSIFICATION REPORT ---")
 print(classification_report(predictions.label_ids, np.argmax(predictions.predictions, axis=1), target_names=target_names))

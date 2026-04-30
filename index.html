@@ -7,6 +7,7 @@
         <link rel="stylesheet" href="assets/css/main.css" /> 
         <link rel="stylesheet" href="style.css" /> 
         <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </head>
     
     <body>
@@ -53,12 +54,12 @@
                 <div class="row">
                     <div class="col-6 col-12-medium">
                         <p>
-                        <strong>TextLens</strong> is an AI-driven decision support tool designed to bridge the gap between massive online data and human understanding. Using a FastAPI backend and a fine-tuned DistilBERT transformer model, this system transforms unstructured public chatter into actionable emotional intelligence at scale.
+                            <strong>TextLens</strong> is an AI-driven decision support tool designed to bridge the gap between massive online data and human understanding. Using a FastAPI backend and a fine-tuned DistilBERT transformer model, this system transforms unstructured public chatter into actionable emotional intelligence at scale.
                         </p>
                     </div>
                     <div class="col-6 col-12-medium">
-                        <ul>
-                            <li><strong>Model:</strong> Sentiment Analysis Neural Network</li>
+                        <ul class="feature-list">
+                            <li><strong>Model:</strong> Sentiment Analysis Neural Network (BERT)</li>
                             <li><strong>Backend:</strong> FastAPI & Python</li>
                             <li><strong>Frontend:</strong> Modern CSS3 & Vanilla JavaScript</li>
                         </ul>
@@ -68,8 +69,23 @@
         </section>
 
         <section id="results-section" class="main style3 secondary">
-            <div class="content">
+            <div class="content container">
+                <header>
+                    <h2 style="color: #1e293b;">Live Insights</h2>
+                    <p style="color: #64748b;">A real-time overview of sentiment patterns detected across your submissions.</p>
+                </header>
+
+                <div class="box" style="background: #fff !important; color: #1e293b !important; border-radius: 24px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+                    <h3 style="text-align: center; margin-bottom: 1.5rem; font-weight: 800;">Global Sentiment Distribution</h3>
+                    <div style="max-width: 280px; margin: 0 auto; height: 280px;">
+                        <canvas id="globalSentimentChart"></canvas>
+                    </div>
+                </div>
+
                 <div id="history-container" class="fade-in">
+                    <div id="history-table-mount"></div>
+                </div>
+            </div>
         </section>
 
         <footer id="footer">
@@ -81,7 +97,6 @@
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/js/browser.min.js"></script>
         <script src="assets/js/util.js"></script>
-        <script src="assets/js/main.js"></script>
         <script src="script.js"></script>
     </body>
 </html>

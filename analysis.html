@@ -68,23 +68,23 @@
         const data = JSON.parse(sessionStorage.getItem('latestAnalysis'));
         if (!data) { window.location.href = 'index.html'; }
 
-        // --- Basic UI Elements ---
+        // Basic UI Elements
         document.getElementById('original-text-display').innerText = `"${data.text}"`;
         const labelEl = document.getElementById('primary-label');
         labelEl.innerText = data.sentiment.toUpperCase();
         labelEl.className = `sentiment-${data.sentiment.toLowerCase()}`;
         document.getElementById('primary-confidence').innerText = `AI Certainty: ${(data.score * 100).toFixed(1)}%`;
 
-        // --- NEW: NLP Metrics Calculation ---
+        // NLP Metrics Calculation
         const words = data.text.trim().split(/\s+/).length;
-        // Intensity is how far from a "random guess" (0.33) the score is
+        // Intensity is how far from a random guess (0.33) the score is
         const intensityScore = (data.score - 0.33) / 0.67;
         let intensityLevel = intensityScore > 0.7 ? "High Intensity" : intensityScore > 0.4 ? "Moderate Intensity" : "Subtle/Nuanced";
 
         document.getElementById('word-count').innerText = `${words} Words Analyzed`;
         document.getElementById('intensity-meter').innerText = `Emotional Weight: ${intensityLevel}`;
 
-        // --- NEW: Dynamic Business Recommendations ---
+        // Dynamic Business Recommendations
         const tipBox = document.getElementById('business-tip');
         let recommendation = "";
         const sentiment = data.sentiment.toLowerCase();
@@ -101,7 +101,7 @@
         }
         tipBox.innerHTML = recommendation;
 
-        // --- Chart.js Configuration ---
+        // Chart.js Configuration
         const ctx = document.getElementById('breakdownChart').getContext('2d');
         const colors = { 'negative': '#ff6b6b', 'neutral': '#94a3b8', 'positive': '#51cf66' };
         const chartLabels = Object.keys(data.breakdown);
